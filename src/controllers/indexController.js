@@ -26,9 +26,9 @@ module.exports = {
 
         if(req.query.status.includes('success')){
             res.render('success', {
-                operation_type : req.query.operation_type,
+                payment_type : req.query.payment_type,
                 external_reference : req.query.external_reference,
-                collector_id : req.query.collector_id
+                collection_id : req.query.collection_id
             })
         }
 
