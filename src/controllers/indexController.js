@@ -46,6 +46,8 @@ module.exports = {
 
         res.status(200).end('ok')
 
+        res.send(req.body)
+
     },
 
 
