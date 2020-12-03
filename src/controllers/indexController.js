@@ -67,7 +67,7 @@ module.exports = {
 
             notification_urls: host + 'notifications',
 
-            auto_return: 'aproved',
+            auto_return: 'approved',
             //--> va adentro de la preferencia y genera una redireccion automatica solamente si el pago fue aceptado
 
             payment_methods:{
