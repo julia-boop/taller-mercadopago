@@ -20,12 +20,16 @@ module.exports = {
 
 
     callback: (req, res) => {
-        console.log(req.query)
+        console.log("--------------------------------------------"+req.query)
         //guardar en la base de datos lo que llega a traves de req.query, tiene toda la info del pago/compra
 
 
         if(req.query.status.includes('success')){
-            res.render('success')
+            res.render('success', {
+                operation_type : req.query.operation_type,
+                external_reference : req.query.external_reference,
+                collector_id : req.query.collector_id
+            })
         }
 
         if(req.query.status.includes('pending')){
@@ -65,7 +69,7 @@ module.exports = {
                 failure: url + 'failure'
             },
 
-            notification_urls: host + 'notifications',
+            notification_url: host + 'notifications',
 
             auto_return: 'approved',
             //--> va adentro de la preferencia y genera una redireccion automatica solamente si el pago fue aceptado
