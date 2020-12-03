@@ -5,16 +5,69 @@ mercadoPago.configure({
     integrator_id:'dev_24c65fb163bf11ea96500242ac130004'
 })
 
+//collection_id es el id de pago
+
+
 module.exports = {
     home: (req, res) => {
         return res.render("index");
     },
+
+
     detail: (req, res) => {
         return res.render("detail", { ...req.query });
     },
+
+
+    callback: (req, res) => {
+        console.log(req.query)
+        //guardar en la base de datos lo que llega a traves de req.query, tiene toda la info del pago/compra
+
+
+        if(req.query.status.includes('success')){
+            res.render('success')
+        }
+
+        if(req.query.status.includes('pending')){
+            res.render('pending')
+        }
+
+        if(req.query.status.includes('failure')){
+            res.render('failure')
+        }
+
+        return res.status(404).end()
+    },
+
+
+    notifications: (req, res) => {
+
+        console.log(req.body)
+
+        res.status(200).end('ok')
+
+    },
+
+
     comprar: (req, res) => {
 
+        const host = 'http://localhost:3000/'
+
+        const url = host + 'callback?status='
+
         let preference = {
+
+            back_urls:{
+                success: url + 'success',
+                pending: url + 'pending',
+                failure: url + 'failure'
+            },
+
+            notification_urls: host + 'notifications',
+
+            auto_return: 'aproved',
+            //--> va adentro de la preferencia y genera una redireccion automatica solamente si el pago fue aceptado
+
             payment_methods:{
                 payer:{
                     name:'ryan',
@@ -30,20 +83,24 @@ module.exports = {
                         street_number:860
                     }
                 },
+
                 excluded_payment_types:[
                     {id:'atm'}
                 ],
+
                 excluded_payment_methods:[
                     {id:'visa'}
                 ],
+
                 installments:12
             },
+
             items: [
                 {
-                    id: 1,
-                    title:'',
-                    description:'',
-                    unit_price:100,
+                    id: 1234,
+                    title:'Nombre del Producto',
+                    description:'Dispositivo móvil de Tienda e-commerce',
+                    unit_price:999,
                     quantity:1
                 }
             ],
